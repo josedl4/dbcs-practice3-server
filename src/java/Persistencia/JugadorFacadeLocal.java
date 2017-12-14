@@ -30,4 +30,8 @@ public interface JugadorFacadeLocal {
 
     int count();
     
+    List<Jugador> getByCoach(String coachID);
+    
+    List<Jugador> withoutTeam();
+    
 }

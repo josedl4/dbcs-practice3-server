@@ -6,9 +6,11 @@
 package Persistencia;
 
 import Dominio.Equipo;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,20 @@ public class EquipoFacade extends AbstractFacade<Equipo> implements EquipoFacade
 
     public EquipoFacade() {
         super(Equipo.class);
+    }
+
+    @Override
+    public Equipo findWithUserAndPlayer(int player, String coach) {
+        Query query = em.createNamedQuery("Equipo.findByUserAndPlayer");
+        query.setParameter("player", player);
+        query.setParameter("coach", coach);
+        
+        List result = query.getResultList();
+        
+        if(result == null)
+            return null;
+        else
+            return (Equipo) result.get(0);
     }
     
 }

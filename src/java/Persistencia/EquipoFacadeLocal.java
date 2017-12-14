@@ -27,6 +27,8 @@ public interface EquipoFacadeLocal {
     List<Equipo> findAll();
 
     List<Equipo> findRange(int[] range);
+    
+    Equipo findWithUserAndPlayer(int jugId, String usId);
 
     int count();
     
