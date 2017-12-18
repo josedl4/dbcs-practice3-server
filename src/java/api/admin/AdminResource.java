@@ -45,6 +45,7 @@ public class AdminResource {
     }
 
     @POST
+    @Path("/jugador")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response importPlayer(String content) throws ParseException {
