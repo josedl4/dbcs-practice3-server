@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package api.login;
 
 import Dominio.Usuario;
@@ -13,13 +8,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,8 +19,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * Recurso Login para la identificacion
+ */
 @Path("login")
 public class LoginResource extends Application {
+
     UsuarioFacadeLocal usuarioFacade = lookupUsuarioFacadeLocal();
 
     @Context
@@ -39,18 +35,28 @@ public class LoginResource extends Application {
      */
     public LoginResource() {
     }
-    
+
+    /**
+     * Metodo para la identificacion del usuario. A partir del String pasado
+     * como parametro se contruye un JSONObject y comprueba de forma simple la
+     * identifacion.
+     *
+     * @param content String con el contenido del JSONObject
+     * @return true si el usuario existe en la bd, false en caso contrario
+     * @throws ParseException si no se ha podido convertir el String en JSONObject
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(String content) throws ParseException {
         JSONParser parser = new JSONParser();
         JSONObject json = (JSONObject) parser.parse(content);
-        
-        Usuario us = usuarioFacade.find((String)json.get("username"));
-        if(us == null){
+        // Se recoge el usuario
+        Usuario us = usuarioFacade.find((String) json.get("username"));
+        // Se comprueba la password
+        if (us == null) {
             return Response.status(400).build();
-        } else if(us.getClave().equals((String)json.get("password"))){
+        } else if (us.getClave().equals((String) json.get("password"))) {
             return Response.status(200).build();
         } else {
             return Response.status(402).build();
@@ -66,6 +72,5 @@ public class LoginResource extends Application {
             throw new RuntimeException(ne);
         }
     }
-    
-    
+
 }

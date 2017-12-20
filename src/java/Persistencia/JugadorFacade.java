@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Persistencia;
 
 import Dominio.Jugador;
@@ -12,12 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-/**
- *
- * @author joselm
- */
 @Stateless
 public class JugadorFacade extends AbstractFacade<Jugador> implements JugadorFacadeLocal {
+
     @PersistenceContext(unitName = "dbcs-practice3-serverPU")
     private EntityManager em;
 
@@ -42,5 +34,5 @@ public class JugadorFacade extends AbstractFacade<Jugador> implements JugadorFac
         List list = em.createQuery("SELECT j FROM Jugador j WHERE j.id NOT IN(SELECT e.jugId.id FROM Equipo e)").getResultList();
         return list;
     }
-    
+
 }
